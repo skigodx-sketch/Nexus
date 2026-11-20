@@ -1,0 +1,3344 @@
+```html
+<!DOCTYPE html>
+<html lang="en" data-theme="night">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>NEXUS — Beyond The Known | Interactive Digital Universe</title>
+  <meta name="description" content="An immersive futuristic digital universe combining cosmic exploration with mysterious interactive experiences." />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       1. DESIGN TOKENS & THEME SYSTEM (NIGHT / ASTRAL DAY)
+       ========================================================================== */
+    :root {
+      /* Cosmic Night Theme (Default) */
+      --bg-primary: #03040b;
+      --bg-secondary: #070a18;
+      --bg-tertiary: #0d1229;
+      --surface-glass: rgba(14, 20, 44, 0.55);
+      --surface-glass-heavy: rgba(10, 14, 32, 0.85);
+      --surface-card: rgba(16, 23, 52, 0.45);
+      --surface-hover: rgba(30, 42, 90, 0.6);
+      
+      --text-primary: #f4f7ff;
+      --text-secondary: #9ba8cc;
+      --text-muted: #5e6c91;
+      
+      --accent-cyan: #00f0ff;
+      --accent-blue: #2d5bff;
+      --accent-purple: #8a2be2;
+      --accent-magenta: #ff007f;
+      --accent-gold: #ffb800;
+      
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(0, 240, 255, 0.35);
+      --shadow-ambient: 0 20px 60px -15px rgba(0, 0, 0, 0.85);
+      --shadow-glow: 0 0 35px rgba(0, 240, 255, 0.25);
+      
+      --gradient-hero: radial-gradient(circle at 70% 35%, rgba(138, 43, 226, 0.22) 0%, rgba(45, 91, 255, 0.14) 38%, rgba(3, 4, 11, 0) 70%);
+      --gradient-nebula: radial-gradient(circle at 20% 80%, rgba(0, 240, 255, 0.14) 0%, rgba(255, 0, 127, 0.08) 45%, transparent 70%);
+      --gradient-text: linear-gradient(135deg, #ffffff 0%, #c8dcff 45%, #00f0ff 85%, #a855f7 100%);
+      --gradient-btn: linear-gradient(135deg, #00f0ff 0%, #2d5bff 50%, #8a2be2 100%);
+      
+      --font-display: 'Syne', sans-serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      
+      --nav-height: 80px;
+      --container-max: 1380px;
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 28px;
+      --radius-full: 9999px;
+      
+      --transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+      --star-color: 255, 255, 255;
+      --nebula-opacity: 1;
+    }
+
+    [data-theme="day"] {
+      /* Astral Day / High-Orbit Solar Observatory Theme */
+      --bg-primary: #f2f5fc;
+      --bg-secondary: #e6ecf8;
+      --bg-tertiary: #d8e2f5;
+      --surface-glass: rgba(255, 255, 255, 0.72);
+      --surface-glass-heavy: rgba(248, 250, 255, 0.92);
+      --surface-card: rgba(255, 255, 255, 0.65);
+      --surface-hover: rgba(255, 255, 255, 0.9);
+      
+      --text-primary: #070b1d;
+      --text-secondary: #394668;
+      --text-muted: #68779c;
+      
+      --accent-cyan: #0066ff;
+      --accent-blue: #1e40af;
+      --accent-purple: #6d28d9;
+      --accent-magenta: #db2777;
+      --accent-gold: #d97706;
+      
+      --border-subtle: rgba(15, 23, 42, 0.1);
+      --border-glow: rgba(0, 102, 255, 0.35);
+      --shadow-ambient: 0 20px 50px -15px rgba(15, 23, 42, 0.12);
+      --shadow-glow: 0 10px 30px rgba(0, 102, 255, 0.2);
+      
+      --gradient-hero: radial-gradient(circle at 70% 35%, rgba(109, 40, 217, 0.15) 0%, rgba(0, 102, 255, 0.12) 40%, rgba(242, 245, 252, 0) 70%);
+      --gradient-nebula: radial-gradient(circle at 20% 80%, rgba(0, 102, 255, 0.12) 0%, rgba(219, 39, 119, 0.08) 45%, transparent 70%);
+      --gradient-text: linear-gradient(135deg, #070b1d 0%, #1e3a8a 45%, #0066ff 80%, #7c3aed 100%);
+      --gradient-btn: linear-gradient(135deg, #0066ff 0%, #4f46e5 55%, #9333ea 100%);
+      
+      --star-color: 18, 32, 79;
+      --nebula-opacity: 0.45;
+    }
+
+    /* ==========================================================================
+       2. RESET & BASE STYLES
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: var(--nav-height);
+      overflow-x: clip;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background-color 0.5s var(--transition-smooth), color 0.5s var(--transition-smooth);
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: clip;
+      position: relative;
+      background-color: var(--bg-primary);
+      line-height: 1.6;
+    }
+
+    body.menu-open {
+      overflow: hidden;
+    }
+
+    ::selection {
+      background: var(--accent-cyan);
+      color: #03040b;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button, input {
+      font-family: inherit;
+      border: none;
+      background: none;
+      color: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    img, svg, canvas {
+      display: block;
+      max-width: 100%;
+    }
+
+    /* ==========================================================================
+       3. ATMOSPHERIC BACKGROUNDS & GLOBAL CANVAS
+       ========================================================================== */
+    #cosmic-bg-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .ambient-glow-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: var(--gradient-hero), var(--gradient-nebula);
+      opacity: var(--nebula-opacity);
+      transition: opacity 0.6s ease;
+    }
+
+    .noise-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.028;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* Layout Wrapper */
+    .site-wrapper {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--container-max);
+      margin-inline: auto;
+      padding-inline: clamp(1.25rem, 4vw, 3.5rem);
+    }
+
+    .section-spacing {
+      padding-block: clamp(4.5rem, 10vw, 8.5rem);
+      position: relative;
+    }
+
+    /* ==========================================================================
+       4. TYPOGRAPHY & REUSABLE UI COMPONENTS
+       ========================================================================== */
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.45rem 1rem;
+      border-radius: var(--radius-full);
+      background: var(--surface-glass);
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      margin-bottom: 1.25rem;
+      box-shadow: var(--shadow-glow);
+    }
+
+    .eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      box-shadow: 0 0 10px var(--accent-cyan);
+      animation: pulseDot 2s infinite ease-in-out;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.5; }
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4.8vw, 3.85rem);
+      font-weight: 800;
+      line-height: 1.06;
+      letter-spacing: -0.02em;
+      background: var(--gradient-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1.15rem;
+    }
+
+    .section-subtitle {
+      font-size: clamp(1rem, 1.5vw, 1.2rem);
+      color: var(--text-secondary);
+      max-width: 62ch;
+      line-height: 1.65;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 0.95rem 1.85rem;
+      border-radius: var(--radius-full);
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      transition: transform 0.35s var(--transition-smooth), box-shadow 0.35s var(--transition-smooth), background 0.35s ease, border-color 0.35s ease;
+      position: relative;
+      overflow: hidden;
+      min-height: 48px;
+      user-select: none;
+    }
+
+    .btn-primary {
+      background: var(--gradient-btn);
+      color: #ffffff;
+      box-shadow: 0 8px 30px -5px rgba(0, 240, 255, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.28), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 14px 40px -5px rgba(0, 240, 255, 0.65), 0 0 25px rgba(138, 43, 226, 0.45);
+    }
+
+    .btn-primary:hover::before {
+      transform: translateX(100%);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0) scale(0.99);
+    }
+
+    .btn-glass {
+      background: var(--surface-glass);
+      color: var(--text-primary);
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .btn-glass:hover {
+      border-color: var(--accent-cyan);
+      background: var(--surface-hover);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .btn-icon {
+      transition: transform 0.3s var(--transition-smooth);
+    }
+
+    .btn:hover .btn-icon {
+      transform: translateX(4px);
+    }
+
+    /* Scroll Reveal Animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.85s var(--transition-smooth), transform 0.85s var(--transition-smooth);
+      will-change: opacity, transform;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ==========================================================================
+       5. NAVIGATION HEADER & MOBILE DRAWER
+       ========================================================================== */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: var(--nav-height);
+      z-index: 100;
+      transition: background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease, height 0.3s ease;
+      border-bottom: 1px solid transparent;
+    }
+
+    .navbar.scrolled {
+      background: var(--surface-glass-heavy);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom-color: var(--border-subtle);
+      box-shadow: var(--shadow-ambient);
+    }
+
+    .nav-container {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .brand-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.35rem;
+      letter-spacing: 0.14em;
+      color: var(--text-primary);
+      position: relative;
+      z-index: 110;
+    }
+
+    .brand-emblem {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      background: var(--gradient-btn);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .brand-emblem svg {
+      width: 22px;
+      height: 22px;
+      color: #fff;
+      transition: transform 0.6s var(--transition-smooth);
+    }
+
+    .brand-logo:hover .brand-emblem svg {
+      transform: rotate(90deg) scale(1.1);
+    }
+
+    .nav-links {
+      display: none;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem;
+      border-radius: var(--radius-full);
+      background: var(--surface-glass);
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .nav-link {
+      padding: 0.5rem 1.15rem;
+      border-radius: var(--radius-full);
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: color 0.25s ease, background 0.25s ease;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    [data-theme="day"] .nav-link:hover,
+    [data-theme="day"] .nav-link.active {
+      background: rgba(0, 102, 255, 0.1);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      z-index: 110;
+    }
+
+    /* Custom Theme Toggle Button */
+    .theme-toggle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--surface-glass);
+      border: 1px solid var(--border-subtle);
+      display: grid;
+      place-items: center;
+      color: var(--text-primary);
+      transition: transform 0.3s var(--transition-smooth), border-color 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--accent-cyan);
+      transform: rotate(15deg) scale(1.05);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .theme-toggle svg {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.5s var(--transition-smooth), opacity 0.3s ease;
+      position: absolute;
+    }
+
+    [data-theme="night"] .icon-sun {
+      opacity: 0;
+      transform: rotate(-90deg) scale(0.5);
+    }
+    [data-theme="night"] .icon-moon {
+      opacity: 1;
+      transform: rotate(0) scale(1);
+    }
+    [data-theme="day"] .icon-sun {
+      opacity: 1;
+      transform: rotate(0) scale(1);
+      color: var(--accent-gold);
+    }
+    [data-theme="day"] .icon-moon {
+      opacity: 0;
+      transform: rotate(90deg) scale(0.5);
+    }
+
+    .nav-cta-desktop {
+      display: none;
+      padding: 0.65rem 1.35rem;
+      min-height: 42px;
+      font-size: 0.86rem;
+    }
+
+    /* Mobile Hamburger */
+    .mobile-menu-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--surface-glass);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 10px;
+      transition: border-color 0.3s ease;
+    }
+
+    .mobile-menu-btn:hover {
+      border-color: var(--accent-cyan);
+    }
+
+    .hamburger-line {
+      width: 20px;
+      height: 2px;
+      background-color: var(--text-primary);
+      border-radius: 2px;
+      transition: transform 0.35s var(--transition-smooth), opacity 0.25s ease;
+    }
+
+    .mobile-menu-btn.active .hamburger-line:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .mobile-menu-btn.active .hamburger-line:nth-child(2) {
+      opacity: 0;
+    }
+    .mobile-menu-btn.active .hamburger-line:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* Mobile Navigation Drawer */
+    .mobile-drawer {
+      position: fixed;
+      inset: 0;
+      z-index: 95;
+      background: var(--surface-glass-heavy);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 2rem 3rem;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-20px);
+      transition: opacity 0.4s var(--transition-smooth), transform 0.4s var(--transition-smooth);
+    }
+
+    .mobile-drawer.open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .mobile-nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .mobile-nav-item a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 6vw, 2.5rem);
+      font-weight: 700;
+      color: var(--text-primary);
+      padding-block: 0.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+      transition: color 0.25s ease, padding-left 0.25s ease;
+    }
+
+    .mobile-nav-item a:hover {
+      color: var(--accent-cyan);
+      padding-left: 0.5rem;
+    }
+
+    .mobile-nav-meta {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    @media (min-width: 960px) {
+      .nav-links {
+        display: flex;
+      }
+      .nav-cta-desktop {
+        display: inline-flex;
+      }
+      .mobile-menu-btn {
+        display: none;
+      }
+    }
+
+    /* ==========================================================================
+       6. HERO SECTION (FULL-SCREEN IMMERSIVE + 3D INTERACTIVE CORE)
+       ========================================================================== */
+    .hero {
+      min-height: 100svh;
+      padding-top: calc(var(--nav-height) + 2rem);
+      padding-bottom: 4rem;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    @media (min-width: 1024px) {
+      .hero-grid {
+        grid-template-columns: 1.08fr 0.92fr;
+        gap: 2rem;
+      }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 5;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    @media (min-width: 1024px) {
+      .hero-content {
+        text-align: left;
+        align-items: flex-start;
+      }
+    }
+
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: clamp(2.65rem, 7.2vw, 5.65rem);
+      font-weight: 800;
+      line-height: 0.98;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      margin-bottom: 1.35rem;
+      background: var(--gradient-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 10px 35px rgba(0, 240, 255, 0.15));
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.08rem, 2vw, 1.38rem);
+      color: var(--text-secondary);
+      max-width: 50ch;
+      margin-bottom: 2.25rem;
+      font-weight: 400;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2.75rem;
+      width: 100%;
+    }
+
+    @media (min-width: 640px) {
+      .hero-cta-group {
+        width: auto;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .hero-cta-group {
+        justify-content: flex-start;
+      }
+    }
+
+    /* Live Hero Telemetry Bar */
+    .hero-telemetry {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      width: 100%;
+      max-width: 540px;
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-md);
+      background: var(--surface-glass);
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .telemetry-item {
+      text-align: left;
+      border-right: 1px solid var(--border-subtle);
+      padding-right: 0.75rem;
+    }
+
+    .telemetry-item:last-child {
+      border-right: none;
+      padding-right: 0;
+    }
+
+    .telemetry-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    .telemetry-val {
+      font-family: var(--font-mono);
+      font-size: clamp(0.82rem, 1.5vw, 0.95rem);
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    /* Interactive 3D-Inspired Cosmic Object Stage */
+    .hero-visual-stage {
+      position: relative;
+      width: 100%;
+      max-width: 560px;
+      aspect-ratio: 1 / 1;
+      margin-inline: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      perspective: 1200px;
+      user-select: none;
+    }
+
+    .cosmic-core-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-style: preserve-3d;
+      transition: transform 0.2s ease-out;
+    }
+
+    #hero-core-canvas {
+      width: 100%;
+      height: 100%;
+      cursor: grab;
+      z-index: 3;
+      touch-action: pan-y;
+    }
+
+    #hero-core-canvas:active {
+      cursor: grabbing;
+    }
+
+    /* Concentric Gyroscopic Rings */
+    .orbital-ring {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      border: 1px dashed var(--border-glow);
+    }
+
+    .ring-1 {
+      width: 82%;
+      height: 82%;
+      animation: spinRing 38s linear infinite;
+      border-style: solid;
+      border-color: rgba(0, 240, 255, 0.14);
+    }
+
+    .ring-2 {
+      width: 96%;
+      height: 96%;
+      animation: spinRingReverse 52s linear infinite;
+      border-color: rgba(138, 43, 226, 0.22);
+    }
+
+    @keyframes spinRing {
+      from { transform: rotate(0deg) rotateX(18deg); }
+      to { transform: rotate(360deg) rotateX(18deg); }
+    }
+    @keyframes spinRingReverse {
+      from { transform: rotate(360deg) rotateY(22deg); }
+      to { transform: rotate(0deg) rotateY(22deg); }
+    }
+
+    /* Core Frequency Switcher Pills */
+    .core-controls {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 6;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem;
+      border-radius: var(--radius-full);
+      background: var(--surface-glass-heavy);
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: var(--shadow-ambient);
+      white-space: nowrap;
+    }
+
+    .core-mode-btn {
+      padding: 0.4rem 0.85rem;
+      border-radius: var(--radius-full);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: all 0.25s ease;
+    }
+
+    .core-mode-btn.active {
+      background: var(--gradient-btn);
+      color: #fff;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+    }
+
+    .core-interaction-hint {
+      position: absolute;
+      top: 4%;
+      right: 4%;
+      z-index: 6;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-full);
+      background: var(--surface-glass);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* ==========================================================================
+       7. FEATURED UNIVERSES SECTION (RICH INTERACTIVE CARDS)
+       ========================================================================== */
+    .section-header-row {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    @media (min-width: 900px) {
+      .section-header-row {
+        flex-direction: row;
+        align-items: flex-end;
+      }
+    }
+
+    .filter-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 0.35rem;
+      border-radius: var(--radius-full);
+      background: var(--surface-glass);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .filter-tab {
+      padding: 0.5rem 1.1rem;
+      border-radius: var(--radius-full);
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      transition: all 0.25s ease;
+    }
+
+    .filter-tab:hover {
+      color: var(--text-primary);
+    }
+
+    .filter-tab.active {
+      background: var(--gradient-btn);
+      color: #ffffff;
+      box-shadow: 0 4px 15px rgba(0, 240, 255, 0.35);
+    }
+
+    .universes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+      gap: 1.75rem;
+    }
+
+    .universe-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.45s var(--transition-smooth), border-color 0.35s ease, box-shadow 0.45s var(--transition-smooth);
+      cursor: pointer;
+    }
+
+    .universe-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 240, 255, 0.13), transparent 40%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .universe-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--border-glow);
+      box-shadow: var(--shadow-ambient), var(--shadow-glow);
+    }
+
+    .universe-card:hover::before {
+      opacity: 1;
+    }
+
+    .card-visual {
+      position: relative;
+      height: 230px;
+      width: 100%;
+      overflow: hidden;
+      background: #050816;
+    }
+
+    .card-visual svg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s var(--transition-smooth);
+    }
+
+    .universe-card:hover .card-visual svg {
+      transform: scale(1.08);
+    }
+
+    .card-badges {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      right: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 3;
+    }
+
+    .badge-sector {
+      padding: 0.3rem 0.75rem;
+      border-radius: var(--radius-full);
+      background: rgba(5, 8, 22, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: #00f0ff;
+    }
+
+    .badge-distance {
+      padding: 0.3rem 0.7rem;
+      border-radius: var(--radius-full);
+      background: rgba(5, 8, 22, 0.75);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: #e2e8f0;
+    }
+
+    .card-body {
+      padding: 1.65rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      position: relative;
+      z-index: 3;
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .card-desc {
+      font-size: 0.94rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+
+    .card-footer {
+      padding-top: 1.1rem;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+    }
+
+    .card-metric {
+      color: var(--text-muted);
+    }
+
+    .card-metric strong {
+      color: var(--text-primary);
+    }
+
+    .card-action-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--accent-cyan);
+      font-weight: 600;
+      transition: gap 0.25s ease;
+    }
+
+    .universe-card:hover .card-action-link {
+      gap: 0.7rem;
+    }
+
+    /* ==========================================================================
+       8. EXPLORE THE UNKNOWN — CLICKABLE FLOATING PLANETS SYSTEM
+       ========================================================================== */
+    .planetary-explorer-box {
+      border-radius: var(--radius-lg);
+      background: var(--surface-glass);
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      padding: clamp(1.25rem, 3.5vw, 2.75rem);
+      box-shadow: var(--shadow-ambient);
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 1024px) {
+      .planetary-explorer-box {
+        grid-template-columns: 1.2fr 0.8fr;
+      }
+    }
+
+    /* Interactive Orbits Map */
+    .orbital-system-stage {
+      position: relative;
+      width: 100%;
+      min-height: 400px;
+      height: clamp(400px, 52vw, 540px);
+      border-radius: var(--radius-md);
+      background: radial-gradient(circle at center, rgba(45, 91, 255, 0.16) 0%, rgba(3, 4, 11, 0.88) 78%);
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .orbit-track {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px dashed rgba(255, 255, 255, 0.12);
+      pointer-events: none;
+    }
+
+    .track-1 { width: 34%; aspect-ratio: 1; }
+    .track-2 { width: 58%; aspect-ratio: 1; }
+    .track-3 { width: 82%; aspect-ratio: 1; }
+
+    /* Central Star */
+    .system-star {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #ffffff, #00f0ff 55%, #2d5bff 100%);
+      box-shadow: 0 0 40px #00f0ff, 0 0 80px rgba(138, 43, 226, 0.8);
+      position: relative;
+      z-index: 4;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: #03040b;
+      font-weight: 700;
+    }
+
+    /* Clickable Floating Planets */
+    .floating-planet {
+      position: absolute;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.45rem;
+      cursor: pointer;
+      transition: transform 0.4s var(--transition-smooth), filter 0.3s ease;
+      padding: 0.5rem;
+      animation: planetFloat 5s ease-in-out infinite;
+    }
+
+    .floating-planet:nth-child(odd) {
+      animation-duration: 6.5s;
+      animation-delay: -2s;
+    }
+
+    @keyframes planetFloat {
+      0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
+      50% { transform: translate(-50%, -50%) translateY(-10px); }
+    }
+
+    .floating-planet:hover {
+      z-index: 10;
+      filter: brightness(1.25);
+    }
+
+    .planet-sphere {
+      border-radius: 50%;
+      position: relative;
+      transition: transform 0.35s var(--transition-smooth), box-shadow 0.35s ease;
+    }
+
+    .floating-planet:hover .planet-sphere,
+    .floating-planet.active .planet-sphere {
+      transform: scale(1.22);
+    }
+
+    /* Target Reticle around active planet */
+    .floating-planet.active .planet-sphere::after {
+      content: '';
+      position: absolute;
+      inset: -9px;
+      border-radius: 50%;
+      border: 1.5px solid var(--accent-cyan);
+      box-shadow: 0 0 20px var(--accent-cyan);
+      animation: reticleSpin 6s linear infinite;
+    }
+
+    @keyframes reticleSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .planet-tag {
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-full);
+      background: rgba(3, 4, 11, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: #f4f7ff;
+      white-space: nowrap;
+      pointer-events: none;
+      transition: border-color 0.25s ease, color 0.25s ease;
+    }
+
+    .floating-planet.active .planet-tag {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+      background: rgba(0, 240, 255, 0.12);
+    }
+
+    /* Planet Positions & Styles */
+    .planet-aethel {
+      top: 22%;
+      left: 24%;
+    }
+    .planet-aethel .planet-sphere {
+      width: 48px;
+      height: 48px;
+      background: radial-gradient(circle at 30% 30%, #7ef9ff, #0088ff 60%, #051937 95%);
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.5);
+    }
+
+    .planet-xylar {
+      top: 74%;
+      left: 22%;
+    }
+    .planet-xylar .planet-sphere {
+      width: 58px;
+      height: 58px;
+      background: radial-gradient(circle at 30% 30%, #ff99cc, #ff007f 55%, #2b051e 95%);
+      box-shadow: 0 0 28px rgba(255, 0, 127, 0.5);
+    }
+
+    .planet-vespera {
+      top: 25%;
+      left: 77%;
+    }
+    .planet-vespera .planet-sphere {
+      width: 52px;
+      height: 52px;
+      background: radial-gradient(circle at 30% 30%, #e0b0ff, #8a2be2 55%, #190433 95%);
+      box-shadow: 0 0 25px rgba(138, 43, 226, 0.6);
+    }
+    /* Planetary Ring on Vespera */
+    .planet-vespera .planet-sphere::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 82px;
+      height: 22px;
+      border-radius: 50%;
+      border: 3px solid rgba(224, 176, 255, 0.55);
+      transform: translate(-50%, -50%) rotate(-24deg);
+      pointer-events: none;
+    }
+
+    .planet-chronos {
+      top: 76%;
+      left: 75%;
+    }
+    .planet-chronos .planet-sphere {
+      width: 44px;
+      height: 44px;
+      background: radial-gradient(circle at 30% 30%, #ffe699, #ff8800 60%, #3d1800 95%);
+      box-shadow: 0 0 24px rgba(255, 136, 0, 0.5);
+    }
+
+    .planet-nyx {
+      top: 15%;
+      left: 52%;
+    }
+    .planet-nyx .planet-sphere {
+      width: 38px;
+      height: 38px;
+      background: radial-gradient(circle at 30% 30%, #a7f3d0, #10b981 60%, #022c22 95%);
+      box-shadow: 0 0 22px rgba(16, 185, 129, 0.5);
+    }
+
+    /* Planet Dossier Panel */
+    .planet-dossier {
+      display: flex;
+      flex-direction: column;
+      gap: 1.35rem;
+    }
+
+    .dossier-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 1rem;
+    }
+
+    .dossier-code {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent-cyan);
+      letter-spacing: 0.1em;
+    }
+
+    .dossier-status {
+      padding: 0.25rem 0.7rem;
+      border-radius: var(--radius-full);
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .dossier-name {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 3vw, 2.4rem);
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .dossier-desc {
+      color: var(--text-secondary);
+      font-size: 0.96rem;
+    }
+
+    .dossier-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.85rem;
+    }
+
+    .dossier-stat-box {
+      padding: 0.9rem 1rem;
+      border-radius: var(--radius-sm);
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .stat-box-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-box-value {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    /* Habitability Progress Bar */
+    .habitability-bar-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .habitability-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+    }
+
+    .habitability-track {
+      width: 100%;
+      height: 8px;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+
+    [data-theme="day"] .habitability-track {
+      background: rgba(15, 23, 42, 0.1);
+    }
+
+    .habitability-fill {
+      height: 100%;
+      border-radius: var(--radius-full);
+      background: var(--gradient-btn);
+      width: 88%;
+      transition: width 0.6s var(--transition-smooth);
+    }
+
+    /* ==========================================================================
+       9. INTERACTIVE DISCOVERY GALLERY (SPECTRAL OBSERVATORY)
+       ========================================================================== */
+    .discovery-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
+    }
+
+    @media (min-width: 1024px) {
+      .discovery-layout {
+        grid-template-columns: 0.42fr 0.58fr;
+      }
+    }
+
+    .discovery-selector-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .discovery-item-btn {
+      width: 100%;
+      text-align: left;
+      padding: 1.25rem 1.4rem;
+      border-radius: var(--radius-md);
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transition: all 0.3s var(--transition-smooth);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .discovery-item-btn:hover {
+      border-color: var(--border-glow);
+      transform: translateX(4px);
+    }
+
+    .discovery-item-btn.active {
+      background: var(--surface-hover);
+      border-color: var(--accent-cyan);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .discovery-item-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .discovery-num {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: rgba(0, 240, 255, 0.1);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .discovery-item-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: block;
+    }
+
+    .discovery-item-sub {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+    }
+
+    /* Interactive Viewport Display */
+    .discovery-viewport {
+      border-radius: var(--radius-lg);
+      background: #040714;
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+      position: relative;
+      min-height: 440px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: clamp(1.25rem, 3vw, 2.25rem);
+      box-shadow: var(--shadow-ambient);
+    }
+
+    #discovery-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      transition: filter 0.4s ease;
+    }
+
+    .viewport-hud-top,
+    .viewport-hud-bottom {
+      position: relative;
+      z-index: 3;
+    }
+
+    .viewport-hud-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .hud-pill {
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-full);
+      background: rgba(4, 7, 20, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: #f4f7ff;
+    }
+
+    .spectral-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.3rem;
+      border-radius: var(--radius-full);
+      background: rgba(4, 7, 20, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+    }
+
+    .spectral-btn {
+      padding: 0.3rem 0.7rem;
+      border-radius: var(--radius-full);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: #9ba8cc;
+      transition: all 0.25s ease;
+    }
+
+    .spectral-btn.active {
+      background: var(--accent-cyan);
+      color: #03040b;
+      font-weight: 700;
+    }
+
+    .viewport-hud-bottom {
+      background: rgba(4, 7, 20, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: var(--radius-md);
+      padding: 1.35rem;
+      color: #f4f7ff;
+    }
+
+    .viewport-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.35rem, 2.5vw, 1.8rem);
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .viewport-desc {
+      font-size: 0.92rem;
+      color: #b4c2e4;
+      margin-bottom: 1rem;
+    }
+
+    .viewport-coords {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: #00f0ff;
+    }
+
+    /* ==========================================================================
+       10. STATISTICS WITH ANIMATED COUNTERS
+       ========================================================================== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+      gap: 1.5rem;
+    }
+
+    .stat-card {
+      padding: 2rem 1.75rem;
+      border-radius: var(--radius-lg);
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.35s var(--transition-smooth), border-color 0.35s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--border-glow);
+    }
+
+    .stat-card-glow {
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 240, 255, 0.2), transparent 70%);
+      pointer-events: none;
+    }
+
+    .stat-number-wrap {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+      font-weight: 800;
+      line-height: 1;
+      background: var(--gradient-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.65rem;
+      display: flex;
+      align-items: baseline;
+    }
+
+    .stat-label {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.35rem;
+    }
+
+    .stat-detail {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    /* ==========================================================================
+       11. FINAL IMMERSIVE CTA SECTION
+       ========================================================================== */
+    .cta-banner {
+      position: relative;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, rgba(16, 24, 64, 0.85) 0%, rgba(9, 12, 32, 0.95) 100%);
+      border: 1px solid var(--border-glow);
+      padding: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+      text-align: center;
+      overflow: hidden;
+      box-shadow: var(--shadow-ambient), var(--shadow-glow);
+      color: #f4f7ff;
+    }
+
+    .cta-banner::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      background: conic-gradient(from 90deg at 50% 50%, transparent 0deg, rgba(0, 240, 255, 0.16) 90deg, transparent 180deg, rgba(138, 43, 226, 0.2) 270deg, transparent 360deg);
+      animation: rotateAura 18s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes rotateAura {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .cta-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 680px;
+      margin-inline: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cta-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      font-weight: 800;
+      line-height: 1.05;
+      margin-bottom: 1.15rem;
+      color: #ffffff;
+    }
+
+    .cta-sub {
+      font-size: clamp(1rem, 1.6vw, 1.2rem);
+      color: #b4c2e4;
+      margin-bottom: 2.25rem;
+    }
+
+    .neural-pass-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    @media (min-width: 560px) {
+      .neural-pass-form {
+        flex-direction: row;
+      }
+    }
+
+    .neural-input {
+      flex: 1;
+      padding: 0.95rem 1.4rem;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      min-height: 48px;
+    }
+
+    .neural-input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .neural-input:focus {
+      border-color: #00f0ff;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+    }
+
+    .pass-confirmation {
+      margin-top: 1.25rem;
+      padding: 0.85rem 1.35rem;
+      border-radius: var(--radius-md);
+      background: rgba(16, 185, 129, 0.16);
+      border: 1px solid rgba(52, 211, 153, 0.4);
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: #6ee7b7;
+      display: none;
+    }
+
+    .pass-confirmation.show {
+      display: block;
+      animation: fadeUp 0.4s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ==========================================================================
+       12. INTERACTIVE PORTAL MODAL
+       ========================================================================== */
+    .portal-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(3, 4, 11, 0.82);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      display: grid;
+      place-items: center;
+      padding: 1.25rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .portal-modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .portal-modal {
+      width: 100%;
+      max-width: 600px;
+      border-radius: var(--radius-lg);
+      background: var(--surface-glass-heavy);
+      border: 1px solid var(--border-glow);
+      padding: clamp(1.5rem, 4vw, 2.5rem);
+      box-shadow: var(--shadow-ambient), var(--shadow-glow);
+      transform: scale(0.94) translateY(16px);
+      transition: transform 0.35s var(--transition-smooth);
+      position: relative;
+    }
+
+    .portal-modal-backdrop.open .portal-modal {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      display: grid;
+      place-items: center;
+      color: var(--text-secondary);
+      transition: all 0.25s ease;
+    }
+
+    .modal-close-btn:hover {
+      color: var(--text-primary);
+      border-color: var(--accent-cyan);
+      transform: rotate(90deg);
+    }
+
+    /* ==========================================================================
+       13. MINIMALIST FUTURISTIC FOOTER
+       ========================================================================== */
+    .site-footer {
+      border-top: 1px solid var(--border-subtle);
+      padding-block: 3.5rem 2.5rem;
+      background: var(--surface-glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .footer-top {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 2.5rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    @media (min-width: 768px) {
+      .footer-top {
+        flex-direction: row;
+        align-items: center;
+      }
+    }
+
+    .footer-brand-col {
+      max-width: 360px;
+    }
+
+    .footer-tagline {
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .footer-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem 2.25rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .footer-nav a:hover {
+      color: var(--accent-cyan);
+    }
+
+    .footer-bottom {
+      padding-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    @media (min-width: 640px) {
+      .footer-bottom {
+        flex-direction: row;
+      }
+    }
+
+    .system-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #34d399;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 10px #10b981;
+    }
+
+    /* Reduced Motion Support */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Starfield & Nebula Layers -->
+  <canvas id="cosmic-bg-canvas" aria-hidden="true"></canvas>
+  <div class="ambient-glow-layer" aria-hidden="true"></div>
+  <div class="noise-overlay" aria-hidden="true"></div>
+
+  <div class="site-wrapper">
+    <!-- ========================================================================
+         NAVIGATION HEADER
+         ======================================================================== -->
+    <header class="navbar" id="navbar">
+      <div class="container nav-container">
+        <a href="#" class="brand-logo" aria-label="NEXUS Home">
+          <span class="brand-emblem">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon>
+              <line x1="12" y1="22" x2="12" y2="15.5"></line>
+              <polyline points="22 8.5 12 15.5 2 8.5"></polyline>
+              <polyline points="2 15.5 12 8.5 22 15.5"></polyline>
+              <line x1="12" y1="2" x2="12" y2="8.5"></line>
+            </svg>
+          </span>
+          <span>NEXUS</span>
+        </a>
+
+        <nav class="nav-links" aria-label="Primary Navigation">
+          <a href="#universes" class="nav-link">Explore</a>
+          <a href="#unknown" class="nav-link">Planetary Orbits</a>
+          <a href="#discover" class="nav-link">Discover</a>
+          <a href="#telemetry" class="nav-link">About</a>
+        </nav>
+
+        <div class="nav-actions">
+          <!-- Custom Day / Night Theme Toggle -->
+          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Cosmic Night or Astral Day Theme" title="Switch Theme">
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </button>
+
+          <a href="#cta" class="btn btn-primary nav-cta-desktop">
+            <span>Initiate Warp</span>
+            <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+
+          <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu" aria-expanded="false">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
+      <ul class="mobile-nav-list">
+        <li class="mobile-nav-item"><a href="#universes" class="mobile-link"><span>Explore</span><span>01</span></a></li>
+        <li class="mobile-nav-item"><a href="#unknown" class="mobile-link"><span>Planetary Orbits</span><span>02</span></a></li>
+        <li class="mobile-nav-item"><a href="#discover" class="mobile-link"><span>Discover</span><span>03</span></a></li>
+        <li class="mobile-nav-item"><a href="#telemetry" class="mobile-link"><span>About</span><span>04</span></a></li>
+      </ul>
+      <a href="#cta" class="btn btn-primary mobile-link" style="width: 100%;">Initiate Warp Sequence</a>
+      <div class="mobile-nav-meta">
+        <span>SYS.LOC // ORBITAL STATION IX</span>
+        <span>QUANTUM LINK: STABLE (99.98%)</span>
+      </div>
+    </div>
+
+    <main>
+      <!-- ======================================================================
+           HERO SECTION
+           ====================================================================== -->
+      <section class="hero" id="hero">
+        <div class="container hero-grid">
+          <div class="hero-content">
+            <div class="eyebrow">
+              <span class="eyebrow-dot"></span>
+              <span>DEEP SPACE TELEMETRY // SECTOR 09</span>
+            </div>
+
+            <h1 class="hero-headline">BEYOND THE KNOWN.</h1>
+            <p class="hero-subtitle">A universe of possibilities is waiting. Traverse uncharted quantum nebulae, decode ancient orbital relics, and experience interactive worlds in real time.</p>
+
+            <div class="hero-cta-group">
+              <a href="#universes" class="btn btn-primary">
+                <span>Explore Universe</span>
+                <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+              <a href="#unknown" class="btn btn-glass">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polygon points="10 8 16 12 10 16 10 8"></polygon>
+                </svg>
+                <span>Orbital Scanner</span>
+              </a>
+            </div>
+
+            <div class="hero-telemetry" aria-label="Live Cosmic Coordinates">
+              <div class="telemetry-item">
+                <span class="telemetry-label">CORE FREQ</span>
+                <span class="telemetry-val" id="hero-freq-readout">432.8 THz</span>
+              </div>
+              <div class="telemetry-item">
+                <span class="telemetry-label">GRAVITY FLUX</span>
+                <span class="telemetry-val" id="hero-grav-readout">0.042 G</span>
+              </div>
+              <div class="telemetry-item">
+                <span class="telemetry-label">ACTIVE NODES</span>
+                <span class="telemetry-val" style="color: var(--accent-cyan);">1,024 SYNC</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3D-Inspired Interactive Cosmic Object -->
+          <div class="hero-visual-stage">
+            <div class="core-interaction-hint">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/>
+              </svg>
+              <span>DRAG OR HOVER 3D CORE</span>
+            </div>
+
+            <div class="cosmic-core-wrapper" id="cosmic-core-wrapper">
+              <div class="orbital-ring ring-1"></div>
+              <div class="orbital-ring ring-2"></div>
+              <canvas id="hero-core-canvas" aria-label="Interactive 3D Cosmic Astrolabe Core"></canvas>
+            </div>
+
+            <div class="core-controls" role="group" aria-label="Switch Core Energy State">
+              <button class="core-mode-btn active" data-mode="quantum">Quantum Flux</button>
+              <button class="core-mode-btn" data-mode="supernova">Supernova</button>
+              <button class="core-mode-btn" data-mode="singularity">Singularity</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================================
+           SECTION 1: FEATURED UNIVERSES
+           ====================================================================== -->
+      <section class="section-spacing" id="universes">
+        <div class="container">
+          <div class="section-header-row reveal">
+            <div>
+              <div class="eyebrow">
+                <span class="eyebrow-dot"></span>
+                <span>MULTIVERSE CARTOGRAPHY</span>
+              </div>
+              <h2 class="section-title">FEATURED UNIVERSES</h2>
+              <p class="section-subtitle">Select a dimensional realm to inspect its atmospheric composition, gravitational anomalies, and portal stability.</p>
+            </div>
+
+            <div class="filter-tabs" role="tablist" aria-label="Filter Universes">
+              <button class="filter-tab active" data-filter="all" role="tab" aria-selected="true">All Realms</button>
+              <button class="filter-tab" data-filter="nebula" role="tab" aria-selected="false">Nebulae</button>
+              <button class="filter-tab" data-filter="singularity" role="tab" aria-selected="false">Singularities</button>
+              <button class="filter-tab" data-filter="biosphere" role="tab" aria-selected="false">Biospheres</button>
+            </div>
+          </div>
+
+          <div class="universes-grid" id="universes-grid">
+            <!-- Card 1 -->
+            <article class="universe-card reveal" data-category="nebula" data-title="Aethelgard Prime" data-sector="SEC-01 // CYGNUS RIFT" data-desc="An iridescentionized plasma cloud housing suspended crystalline megastructures built by a Type-III civilization." data-temp="-184°C" data-dilation="1.04x Earth">
+              <div class="card-visual">
+                <div class="card-badges">
+                  <span class="badge-sector">SEC-01 // NEBULA</span>
+                  <span class="badge-distance">42.5 LY</span>
+                </div>
+                <svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <radialGradient id="neb1" cx="50%" cy="50%" r="60%">
+                      <stop offset="0%" stop-color="#00f0ff" stop-opacity="0.85"/>
+                      <stop offset="50%" stop-color="#2d5bff" stop-opacity="0.45"/>
+                      <stop offset="100%" stop-color="#050816" stop-opacity="1"/>
+                    </radialGradient>
+                  </defs>
+                  <rect width="400" height="240" fill="#050816"/>
+                  <circle cx="200" cy="120" r="140" fill="url(#neb1)"/>
+                  <circle cx="200" cy="120" r="45" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1" stroke-dasharray="4 4"/>
+                  <circle cx="200" cy="120" r="78" fill="none" stroke="#00f0ff" stroke-opacity="0.4" stroke-width="1.5"/>
+                  <polygon points="200,72 242,120 200,168 158,120" fill="rgba(0,240,255,0.2)" stroke="#ffffff" stroke-width="1.5"/>
+                  <circle cx="120" cy="70" r="2" fill="#fff"/>
+                  <circle cx="290" cy="160" r="2.5" fill="#00f0ff"/>
+                  <circle cx="260" cy="65" r="1.5" fill="#fff"/>
+                </svg>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">Aethelgard Nebula</h3>
+                <p class="card-desc">Iridescent ionized plasma clouds housing suspended crystalline megastructures and harmonic energy conduits.</p>
+                <div class="card-footer">
+                  <span class="card-metric">STABILITY: <strong>99.4%</strong></span>
+                  <span class="card-action-link">Enter Portal &rarr;</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 2 -->
+            <article class="universe-card reveal reveal-delay-1" data-category="singularity" data-title="Kerr-Vortex Omega" data-sector="SEC-04 // EVENT HORIZON" data-desc="A rotating supermassive singularity surrounded by a luminous golden accretion disk where time slows to a whisper." data-temp="4.2M K" data-dilation="14.8x Earth">
+              <div class="card-visual">
+                <div class="card-badges">
+                  <span class="badge-sector">SEC-04 // SINGULARITY</span>
+                  <span class="badge-distance">1,280 LY</span>
+                </div>
+                <svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <radialGradient id="sing1" cx="50%" cy="50%" r="55%">
+                      <stop offset="0%" stop-color="#000000" stop-opacity="1"/>
+                      <stop offset="32%" stop-color="#000000" stop-opacity="1"/>
+                      <stop offset="40%" stop-color="#ff007f" stop-opacity="0.95"/>
+                      <stop offset="65%" stop-color="#8a2be2" stop-opacity="0.45"/>
+                      <stop offset="100%" stop-color="#050816" stop-opacity="1"/>
+                    </radialGradient>
+                  </defs>
+                  <rect width="400" height="240" fill="#050816"/>
+                  <circle cx="200" cy="120" r="130" fill="url(#sing1)"/>
+                  <ellipse cx="200" cy="120" rx="115" ry="26" fill="none" stroke="#ff99cc" stroke-width="2.5" transform="rotate(-14 200 120)"/>
+                  <ellipse cx="200" cy="120" rx="90" ry="18" fill="none" stroke="#ffffff" stroke-width="1.2" stroke-opacity="0.7" transform="rotate(-14 200 120)"/>
+                  <circle cx="200" cy="120" r="36" fill="#020308" stroke="#ff007f" stroke-width="1.5"/>
+                </svg>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">Kerr-Vortex Omega</h3>
+                <p class="card-desc">A rotating supermassive singularity where relativistic frame-dragging bends starlight into playable geometric loops.</p>
+                <div class="card-footer">
+                  <span class="card-metric">DILATION: <strong>14.8x</strong></span>
+                  <span class="card-action-link">Enter Portal &rarr;</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 3 -->
+            <article class="universe-card reveal reveal-delay-2" data-category="biosphere" data-title="Sylvanis Biolume" data-sector="SEC-07 // VERDANT HALO" data-desc="An ocean-covered rogue exoplanet heated by geothermal vents and lit entirely by sentient bioluminescent flora." data-temp="+22°C" data-dilation="1.00x Earth">
+              <div class="card-visual">
+                <div class="card-badges">
+                  <span class="badge-sector">SEC-07 // BIOSPHERE</span>
+                  <span class="badge-distance">18.9 LY</span>
+                </div>
+                <svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <radialGradient id="bio1" cx="45%" cy="40%" r="55%">
+                      <stop offset="0%" stop-color="#6ee7b7" stop-opacity="0.9"/>
+                      <stop offset="45%" stop-color="#059669" stop-opacity="0.6"/>
+                      <stop offset="85%" stop-color="#00f0ff" stop-opacity="0.2"/>
+                      <stop offset="100%" stop-color="#050816" stop-opacity="1"/>
+                    </radialGradient>
+                  </defs>
+                  <rect width="400" height="240" fill="#050816"/>
+                  <circle cx="200" cy="120" r="120" fill="url(#bio1)"/>
+                  <circle cx="200" cy="120" r="56" fill="#042f2e" stroke="#34d399" stroke-width="2"/>
+                  <path d="M145 120 Q 172 95, 200 120 T 255 120" fill="none" stroke="#6ee7b7" stroke-width="2.5"/>
+                  <path d="M152 136 Q 180 115, 200 136 T 248 136" fill="none" stroke="#00f0ff" stroke-width="1.5" stroke-opacity="0.7"/>
+                  <circle cx="185" cy="98" r="3" fill="#a7f3d0"/>
+                  <circle cx="222" cy="105" r="2" fill="#00f0ff"/>
+                </svg>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">Sylvanis Biolume</h3>
+                <p class="card-desc">A subterranean oceanic biosphere illuminated by neural-linked bioluminescent reefs that communicate in light pulses.</p>
+                <div class="card-footer">
+                  <span class="card-metric">HABITABILITY: <strong>96.2%</strong></span>
+                  <span class="card-action-link">Enter Portal &rarr;</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 4 -->
+            <article class="universe-card reveal" data-category="nebula" data-title="Vela Chrono-Spire" data-sector="SEC-12 // PULSAR REMNANT" data-desc="A millisecond pulsar sweeping electromagnetic beams across a cathedral of frozen dark-matter filaments." data-temp="-240°C" data-dilation="1.82x Earth">
+              <div class="card-visual">
+                <div class="card-badges">
+                  <span class="badge-sector">SEC-12 // NEBULA</span>
+                  <span class="badge-distance">610 LY</span>
+                </div>
+                <svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <radialGradient id="neb2" cx="50%" cy="50%" r="60%">
+                      <stop offset="0%" stop-color="#c084fc" stop-opacity="0.9"/>
+                      <stop offset="50%" stop-color="#6d28d9" stop-opacity="0.45"/>
+                      <stop offset="100%" stop-color="#050816" stop-opacity="1"/>
+                    </radialGradient>
+                  </defs>
+                  <rect width="400" height="240" fill="#050816"/>
+                  <circle cx="200" cy="120" r="130" fill="url(#neb2)"/>
+                  <line x1="70" y1="30" x2="330" y2="210" stroke="#00f0ff" stroke-width="3" stroke-opacity="0.75"/>
+                  <line x1="330" y1="30" x2="70" y2="210" stroke="#e879f9" stroke-width="1.5" stroke-opacity="0.5"/>
+                  <circle cx="200" cy="120" r="18" fill="#ffffff" stroke="#c084fc" stroke-width="6"/>
+                  <circle cx="200" cy="120" r="65" fill="none" stroke="#e879f9" stroke-dasharray="3 6"/>
+                </svg>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">Vela Chrono-Spire</h3>
+                <p class="card-desc">A millisecond pulsar sweeping twin electromagnetic lighthouse beams across dark-matter filaments.</p>
+                <div class="card-footer">
+                  <span class="card-metric">PULSE RATE: <strong>716 Hz</strong></span>
+                  <span class="card-action-link">Enter Portal &rarr;</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 5 -->
+            <article class="universe-card reveal reveal-delay-1" data-category="biosphere" data-title="Helios Dyson Ring" data-sector="SEC-19 // ARTIFICIAL" data-desc="An orbital megastructure encircling a white dwarf star, harvesting 100% of its radiant output for synthetic worlds." data-temp="+24°C" data-dilation="1.01x Earth">
+              <div class="card-visual">
+                <div class="card-badges">
+                  <span class="badge-sector">SEC-19 // BIOSPHERE</span>
+                  <span class="badge-distance">88.4 LY</span>
+                </div>
+                <svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <radialGradient id="dys1" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stop-color="#fde047" stop-opacity="0.95"/>
+                      <stop offset="40%" stop-color="#f97316" stop-opacity="0.5"/>
+                      <stop offset="100%" stop-color="#050816" stop-opacity="1"/>
+                    </radialGradient>
+                  </defs>
+                  <rect width="400" height="240" fill="#050816"/>
+                  <circle cx="200" cy="120" r="120" fill="url(#dys1)"/>
+                  <circle cx="200" cy="120" r="72" fill="none" stroke="#fde047" stroke-width="5" stroke-dasharray="18 6"/>
+                  <circle cx="200" cy="120" r="52" fill="none" stroke="#00f0ff" stroke-width="2" stroke-dasharray="8 4"/>
+                  <circle cx="200" cy="120" r="22" fill="#ffffff"/>
+                </svg>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">Helios Dyson Swarm</h3>
+                <p class="card-desc">A precision-engineered orbital ring array encircling a white dwarf star to power trillions of virtual habitats.</p>
+                <div class="card-footer">
+                  <span class="card-metric">OUTPUT: <strong>3.8×10²⁶ W</strong></span>
+                  <span class="card-action-link">Enter Portal &rarr;</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- Card 6 -->
+            <article class="universe-card reveal reveal-delay-2" data-category="singularity" data-title="Tesseract Rift IX" data-sector="SEC-27 // HYPER-FOLD" data-desc="A 4-dimensional spatial anomaly where gravity folds inward, creating a bridge between parallel cosmic timelines." data-temp="0.004 K" data-dilation="∞ Variable">
+              <div class="card-visual">
+                <div class="card-badges">
+                  <span class="badge-sector">SEC-27 // SINGULARITY</span>
+                  <span class="badge-distance">UNKNOWN</span>
+                </div>
+                <svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="400" height="240" fill="#050816"/>
+                  <rect x="140" y="60" width="120" height="120" fill="none" stroke="#2d5bff" stroke-width="2" transform="rotate(15 200 120)"/>
+                  <rect x="140" y="60" width="120" height="120" fill="none" stroke="#00f0ff" stroke-width="2" transform="rotate(-15 200 120)"/>
+                  <rect x="165" y="85" width="70" height="70" fill="rgba(138,43,226,0.3)" stroke="#ff007f" stroke-width="2" transform="rotate(45 200 120)"/>
+                  <circle cx="200" cy="120" r="10" fill="#00f0ff"/>
+                </svg>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title">Tesseract Rift IX</h3>
+                <p class="card-desc">A four-dimensional spatial fold where gravity inverted into a navigable bridge between parallel cosmic timelines.</p>
+                <div class="card-footer">
+                  <span class="card-metric">DIMENSIONS: <strong>4D+1</strong></span>
+                  <span class="card-action-link">Enter Portal &rarr;</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================================
+           SECTION 2: EXPLORE THE UNKNOWN (CLICKABLE FLOATING PLANETS)
+           ====================================================================== -->
+      <section class="section-spacing" id="unknown">
+        <div class="container">
+          <div class="reveal" style="margin-bottom: 2.75rem;">
+            <div class="eyebrow">
+              <span class="eyebrow-dot"></span>
+              <span>INTERACTIVE PLANETARY SYSTEM</span>
+            </div>
+            <h2 class="section-title">EXPLORE THE UNKNOWN</h2>
+            <p class="section-subtitle">Click on any orbiting exoplanet in the live star chart below to lock the orbital scanner and inspect its surface telemetry.</p>
+          </div>
+
+          <div class="planetary-explorer-box reveal">
+            <!-- Clickable Floating Planets Stage -->
+            <div class="orbital-system-stage" id="orbital-stage" aria-label="Interactive Star Chart - Click any planet">
+              <div class="orbit-track track-1"></div>
+              <div class="orbit-track track-2"></div>
+              <div class="orbit-track track-3"></div>
+
+              <div class="system-star" title="Nexus Central Star">SOL-X</div>
+
+              <!-- Planet 1 -->
+              <button class="floating-planet planet-aethel active" data-planet="aethel" aria-label="Inspect Planet Aethelgard-IV">
+                <span class="planet-sphere"></span>
+                <span class="planet-tag">AETHELGARD-IV</span>
+              </button>
+
+              <!-- Planet 2 -->
+              <button class="floating-planet planet-vespera" data-planet="vespera" aria-label="Inspect Planet Vespera Prime">
+                <span class="planet-sphere"></span>
+                <span class="planet-tag">VESPERA PRIME</span>
+              </button>
+
+              <!-- Planet 3 -->
+              <button class="floating-planet planet-xylar" data-planet="xylar" aria-label="Inspect Planet Xylar-9">
+                <span class="planet-sphere"></span>
+                <span class="planet-tag">XYLAR-9</span>
+              </button>
+
+              <!-- Planet 4 -->
+              <button class="floating-planet planet-chronos" data-planet="chronos" aria-label="Inspect Planet Chronos Halo">
+                <span class="planet-sphere"></span>
+                <span class="planet-tag">CHRONOS HALO</span>
+              </button>
+
+              <!-- Planet 5 -->
+              <button class="floating-planet planet-nyx" data-planet="nyx" aria-label="Inspect Planet Nyx Oasis">
+                <span class="planet-sphere"></span>
+                <span class="planet-tag">NYX OASIS</span>
+              </button>
+            </div>
+
+            <!-- Live Planetary Dossier -->
+            <div class="planet-dossier" aria-live="polite">
+              <div class="dossier-header">
+                <span class="dossier-code" id="planet-code">EXO-ID // 884-AETHEL</span>
+                <span class="dossier-status" id="planet-status">SCAN LOCKED</span>
+              </div>
+
+              <div>
+                <h3 class="dossier-name" id="planet-name">Aethelgard-IV</h3>
+                <p class="dossier-desc" id="planet-desc" style="margin-top: 0.5rem;">A super-aquatic world locked in harmonic resonance with twin moons. Sub-surface silicate towers emit low-frequency electromagnetic songs across the magnetosphere.</p>
+              </div>
+
+              <div class="dossier-stats-grid">
+                <div class="dossier-stat-box">
+                  <span class="stat-box-label">SURFACE GRAVITY</span>
+                  <span class="stat-box-value" id="planet-gravity">1.18 G</span>
+                </div>
+                <div class="dossier-stat-box">
+                  <span class="stat-box-label">ATMOSPHERE</span>
+                  <span class="stat-box-value" id="planet-atmo">N₂ / O₂ / Argon</span>
+                </div>
+                <div class="dossier-stat-box">
+                  <span class="stat-box-label">ORBITAL PERIOD</span>
+                  <span class="stat-box-value" id="planet-orbit">412 Standard Days</span>
+                </div>
+                <div class="dossier-stat-box">
+                  <span class="stat-box-label">ANOMALY CLASS</span>
+                  <span class="stat-box-value" id="planet-anomaly" style="color: var(--accent-cyan);">Tier-IV Harmonic</span>
+                </div>
+              </div>
+
+              <div class="habitability-bar-wrap">
+                <div class="habitability-label-row">
+                  <span>BIOSIGNATURE PROBABILITY</span>
+                  <strong id="planet-hab-val" style="color: var(--accent-cyan);">92%</strong>
+                </div>
+                <div class="habitability-track">
+                  <div class="habitability-fill" id="planet-hab-bar" style="width: 92%;"></div>
+                </div>
+              </div>
+
+              <button class="btn btn-primary" id="launch-probe-btn" style="width: 100%;">
+                <span>Deploy Surface Telemetry Probe</span>
+                <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================================
+           SECTION 3: INTERACTIVE DISCOVERY GALLERY
+           ====================================================================== -->
+      <section class="section-spacing" id="discover">
+        <div class="container">
+          <div class="reveal" style="margin-bottom: 2.75rem;">
+            <div class="eyebrow">
+              <span class="eyebrow-dot"></span>
+              <span>DEEP SPACE ARCHIVES</span>
+            </div>
+            <h2 class="section-title">INTERACTIVE DISCOVERY GALLERY</h2>
+            <p class="section-subtitle">Examine anomalous cosmic phenomena captured by the Nexus Array. Toggle spectral wavelengths to reveal hidden energy signatures.</p>
+          </div>
+
+          <div class="discovery-layout reveal">
+            <!-- Discovery Selector List -->
+            <div class="discovery-selector-list" role="tablist" aria-label="Select Cosmic Phenomenon">
+              <button class="discovery-item-btn active" data-discovery="0" role="tab" aria-selected="true">
+                <div class="discovery-item-left">
+                  <span class="discovery-num">01</span>
+                  <div>
+                    <span class="discovery-item-title">The Eventide Rift</span>
+                    <span class="discovery-item-sub">Magnetar Shockwave &bull; Sector 03</span>
+                  </div>
+                </div>
+                <span>&rarr;</span>
+              </button>
+
+              <button class="discovery-item-btn" data-discovery="1" role="tab" aria-selected="false">
+                <div class="discovery-item-left">
+                  <span class="discovery-num">02</span>
+                  <div>
+                    <span class="discovery-item-title">Crystalline Dyson Lattice</span>
+                    <span class="discovery-item-sub">Type-III Megastructure &bull; Sector 11</span>
+                  </div>
+                </div>
+                <span>&rarr;</span>
+              </button>
+
+              <button class="discovery-item-btn" data-discovery="2" role="tab" aria-selected="false">
+                <div class="discovery-item-left">
+                  <span class="discovery-num">03</span>
+                  <div>
+                    <span class="discovery-item-title">Echoes of Vela Pulsar</span>
+                    <span class="discovery-item-sub">Relativistic Jet Stream &bull; Sector 14</span>
+                  </div>
+                </div>
+                <span>&rarr;</span>
+              </button>
+
+              <button class="discovery-item-btn" data-discovery="3" role="tab" aria-selected="false">
+                <div class="discovery-item-left">
+                  <span class="discovery-num">04</span>
+                  <div>
+                    <span class="discovery-item-title">Quantum Singularity Bloom</span>
+                    <span class="discovery-item-sub">Hawking Radiation Fountain &bull; Sector 22</span>
+                  </div>
+                </div>
+                <span>&rarr;</span>
+              </button>
+            </div>
+
+            <!-- Interactive Canvas Viewport -->
+            <div class="discovery-viewport">
+              <canvas id="discovery-canvas" aria-label="Live Spectral Phenomenon Simulation"></canvas>
+
+              <div class="viewport-hud-top">
+                <span class="hud-pill" id="discovery- archive-id">ARCHIVE // REC-0019-A</span>
+                <div class="spectral-controls" role="group" aria-label="Spectral Wavelength Filter">
+                  <button class="spectral-btn active" data-spectrum="visible">VISIBLE</button>
+                  <button class="spectral-btn" data-spectrum="xray">X-RAY</button>
+                  <button class="spectral-btn" data-spectrum="infrared">INFRARED</button>
+                </div>
+              </div>
+
+              <div class="viewport-hud-bottom">
+                <h3 class="viewport-title" id="discovery-title">The Eventide Rift</h3>
+                <p class="viewport-desc" id="discovery-desc">Captured 14,000 light-years from Sol, this hyper-magnetized filament ripples whenever gravitational waves pass through its core.</p>
+                <div class="viewport-coords">
+                  <span id="discovery-ra">RA: 18h 36m 56.3s</span>
+                  <span id="discovery-dec">DEC: +38° 47' 01"</span>
+                  <span id="discovery-flux">FLUX: 8.42×10⁻¹¹ erg/s</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================================
+           SECTION 4: STATISTICS WITH ANIMATED COUNTERS
+           ====================================================================== -->
+      <section class="section-spacing" id="telemetry">
+        <div class="container">
+          <div class="reveal" style="text-align: center; max-width: 680px; margin-inline: auto; margin-bottom: 3.5rem;">
+            <div class="eyebrow">
+              <span class="eyebrow-dot"></span>
+              <span>LIVE NETWORK TELEMETRY</span>
+            </div>
+            <h2 class="section-title">MAPPED ACROSS ETERNITY</h2>
+            <p class="section-subtitle" style="margin-inline: auto;">Our autonomous quantum probes continuously chart the expanding frontier, streaming petabytes of astronomical data back to the Nexus Core.</p>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card reveal">
+              <div class="stat-card-glow"></div>
+              <div class="stat-number-wrap">
+                <span class="counter-value" data-target="14.8" data-decimals="1">0</span>
+                <span>B</span>
+              </div>
+              <div class="stat-label">Light-Years Mapped</div>
+              <p class="stat-detail">High-resolution volumetric cartography across the observable horizon.</p>
+            </div>
+
+            <div class="stat-card reveal reveal-delay-1">
+              <div class="stat-card-glow"></div>
+              <div class="stat-number-wrap">
+                <span class="counter-value" data-target="9420" data-decimals="0">0</span>
+                <span>+</span>
+              </div>
+              <div class="stat-label">Exoplanets Cataloged</div>
+              <p class="stat-detail">Verified worlds featuring complex atmospheric biosignatures.</p>
+            </div>
+
+            <div class="stat-card reveal reveal-delay-2">
+              <div class="stat-card-glow"></div>
+              <div class="stat-number-wrap">
+                <span class="counter-value" data-target="99.98" data-decimals="2">0</span>
+                <span>%</span>
+              </div>
+              <div class="stat-label">Quantum Sync Uptime</div>
+              <p class="stat-detail">Zero-latency entanglement telemetry bridging intergalactic relays.</p>
+            </div>
+
+            <div class="stat-card reveal reveal-delay-3">
+              <div class="stat-card-glow"></div>
+              <div class="stat-number-wrap">
+                <span class="counter-value" data-target="64" data-decimals="0">0</span>
+              </div>
+              <div class="stat-label">Dimensional Rifts Stabilized</div>
+              <p class="stat-detail">Traversable Einstein-Rosen bridges maintained by harmonic anchors.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================================
+           SECTION 5: FINAL IMMERSIVE CTA
+           ====================================================================== -->
+      <section class="section-spacing" id="cta">
+        <div class="container">
+          <div class="cta-banner reveal">
+            <div class="cta-inner">
+              <div class="eyebrow" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2);">
+                <span class="eyebrow-dot"></span>
+                <span>TRANSMISSION OPEN // BOARDING NOW</span>
+              </div>
+              <h2 class="cta-title">READY TO CROSS THE EVENT HORIZON?</h2>
+              <p class="cta-sub">Claim your encrypted Neural Explorer Pass and receive coordinates to newly discovered sectors before they shift out of phase.</p>
+
+              <form class="neural-pass-form" id="neural-pass-form">
+                <input type="text" class="neural-input" id="explorer-callsign" placeholder="Enter Explorer Callsign or Email..." required aria-label="Explorer Callsign or Email" />
+                <button type="submit" class="btn btn-primary">
+                  <span>Generate Star Pass</span>
+                  <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </button>
+              </form>
+
+              <div class="pass-confirmation" id="pass-confirmation" role="status"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ========================================================================
+         FOOTER
+         ======================================================================== -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-top">
+          <div class="footer-brand-col">
+            <a href="#" class="brand-logo">
+              <span class="brand-emblem">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon>
+                  <polyline points="22 8.5 12 15.5 2 8.5"></polyline>
+                </svg>
+              </span>
+              <span>NEXUS</span>
+            </a>
+            <p class="footer-tagline">An interactive digital universe crafted for cosmic pioneers, dreamers, and explorers of the unknown.</p>
+          </div>
+
+          <nav class="footer-nav" aria-label="Footer Navigation">
+            <a href="#hero">Origin</a>
+            <a href="#universes">Universes</a>
+            <a href="#unknown">Planetary System</a>
+            <a href="#discover">Observatory</a>
+            <a href="#telemetry">Telemetry</a>
+          </nav>
+        </div>
+
+        <div class="footer-bottom">
+          <div class="system-status-pill">
+            <span class="status-dot"></span>
+            <span>ALL ORBITAL RELAYS OPERATIONAL // LATENCY 0.02ms</span>
+          </div>
+          <div>&copy; <span id="year">2025</span> NEXUS DEEP SPACE COLLECTIVE. ALL RIGHTS RESERVED.</div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ==========================================================================
+       INTERACTIVE PORTAL / TELEMETRY MODAL
+       ========================================================================== -->
+  <div class="portal-modal-backdrop" id="portal-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="portal-modal">
+      <button class="modal-close-btn" id="modal-close-btn" aria-label="Close Portal Modal">&times;</button>
+      <div class="eyebrow">
+        <span class="eyebrow-dot"></span>
+        <span id="modal-sector">PORTAL TELEMETRY LOCKED</span>
+      </div>
+      <h3 class="section-title" id="modal-title" style="font-size: 2rem; margin-bottom: 0.75rem;">Aethelgard Prime</h3>
+      <p id="modal-desc" style="color: var(--text-secondary); margin-bottom: 1.5rem;">Initializing quantum bridge synchronization...</p>
+
+      <div class="dossier-stats-grid" style="margin-bottom: 1.75rem;">
+        <div class="dossier-stat-box">
+          <span class="stat-box-label">AMBIENT TEMP</span>
+          <span class="stat-box-value" id="modal-temp">-184°C</span>
+        </div>
+        <div class="dossier-stat-box">
+          <span class="stat-box-label">TIME DILATION</span>
+          <span class="stat-box-value" id="modal-dilation">1.04x Earth</span>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" id="modal-confirm-btn" style="width: 100%;">
+        <span>Synchronize Neural Link &amp; Enter</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       JAVASCRIPT: INTERACTIVITY, 3D CANVAS ENGINE, PLANETS & ANIMATIONS
+       ========================================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      // Set current year
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      const isMobile = () => window.matchMedia('(max-width: 768px)').matches;
+      const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* ========================================================================
+         1. THEME TOGGLE (COSMIC NIGHT / ASTRAL DAY)
+         ======================================================================== */
+      const htmlEl = document.documentElement;
+      const themeToggleBtn = document.getElementById('theme-toggle');
+      const savedTheme = localStorage.getItem('nexus-theme');
+      if (savedTheme) {
+        htmlEl.setAttribute('data-theme', savedTheme);
+      }
+
+      themeToggleBtn.addEventListener('click', () => {
+        const current = htmlEl.getAttribute('data-theme') || 'night';
+        const next = current === 'night' ? 'day' : 'night';
+        htmlEl.setAttribute('data-theme', next);
+        localStorage.setItem('nexus-theme', next);
+      });
+
+      /* ========================================================================
+         2. STICKY NAVBAR & MOBILE DRAWER NAVIGATION
+         ======================================================================== */
+      const navbar = document.getElementById('navbar');
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const mobileDrawer = document.getElementById('mobile-drawer');
+      const mobileLinks = document.querySelectorAll('.mobile-link');
+
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 30) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+      }, { passive: true });
+
+      function toggleMobileMenu(forceClose = false) {
+        const isOpen = forceClose ? false : !mobileDrawer.classList.contains('open');
+        mobileDrawer.classList.toggle('open', isOpen);
+        mobileMenuBtn.classList.toggle('active', isOpen);
+        document.body.classList.toggle('menu-open', isOpen);
+        mobileMenuBtn.setAttribute('aria-expanded', String(isOpen));
+        mobileDrawer.setAttribute('aria-hidden', String(!isOpen));
+      }
+
+      mobileMenuBtn.addEventListener('click', () => toggleMobileMenu());
+      mobileLinks.forEach(link => link.addEventListener('click', () => toggleMobileMenu(true)));
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileDrawer.classList.contains('open')) {
+          toggleMobileMenu(true);
+        }
+      });
+
+      /* ========================================================================
+         3. BACKGROUND STARFIELD & NEBULA PARTICLE CANVAS
+         ======================================================================== */
+      const bgCanvas = document.getElementById('cosmic-bg-canvas');
+      const bgCtx = bgCanvas.getContext('2d');
+      let stars = [];
+      let warpBoost = 1;
+      let pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+
+      function initStarfield() {
+        bgCanvas.width = window.innerWidth;
+        bgCanvas.height = window.innerHeight;
+        const count = isMobile() ? 65 : 150;
+        stars = Array.from({ length: count }, () => ({
+          x: Math.random() * bgCanvas.width,
+          y: Math.random() * bgCanvas.height,
+          r: Math.random() * 1.6 + 0.4,
+          alpha: Math.random() * 0.75 + 0.2,
+          speed: Math.random() * 0.25 + 0.05,
+          pulseSpeed: Math.random() * 0.02 + 0.005,
+          phase: Math.random() * Math.PI * 2
+        }));
+      }
+
+      window.addEventListener('mousemove', (e) => {
+        pointer.x = e.clientX;
+        pointer.y = e.clientY;
+      }, { passive: true });
+
+      function renderStarfield() {
+        bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+        const isDay = htmlEl.getAttribute('data-theme') === 'day';
+        const starRGB = isDay ? '18, 38, 95' : '255, 255, 255';
+        const cyanRGB = isDay ? '0, 102, 255' : '0, 240, 255';
+
+        for (let i = 0; i < stars.length; i++) {
+          const s = stars[i];
+          s.phase += s.pulseSpeed;
+          s.y -= s.speed * warpBoost;
+          if (s.y < 0) {
+            s.y = bgCanvas.height;
+            s.x = Math.random() * bgCanvas.width;
+          }
+
+          const twinkle = s.alpha * (0.65 + 0.35 * Math.sin(s.phase));
+          bgCtx.beginPath();
+          bgCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          bgCtx.fillStyle = i % 7 === 0 ? `rgba(${cyanRGB}, ${twinkle})` : `rgba(${starRGB}, ${twinkle})`;
+          bgCtx.fill();
+        }
+
+        if (warpBoost > 1) {
+          warpBoost += (1 - warpBoost) * 0.05;
+        }
+
+        if (!prefersReducedMotion()) {
+          requestAnimationFrame(renderStarfield);
+        }
+      }
+
+      initStarfield();
+      renderStarfield();
+
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          initStarfield();
+          initHeroCore();
+          initDiscoveryCanvas();
+        }, 150);
+      });
+
+      /* ========================================================================
+         4. HERO 3D-INSPIRED INTERACTIVE COSMIC OBJECT (THE NEXUS CORE)
+         ======================================================================== */
+      const coreCanvas = document.getElementById('hero-core-canvas');
+      const coreCtx = coreCanvas.getContext('2d');
+      const freqReadout = document.getElementById('hero-freq-readout');
+      const gravReadout = document.getElementById('hero-grav-readout');
+
+      let coreNodes = [];
+      let rotX = 0.3;
+      let rotY = 0.5;
+      let targetRotX = 0.003;
+      let targetRotY = 0.006;
+      let isDragging = false;
+      let lastMouse = { x: 0, y: 0 };
+      let currentCoreMode = 'quantum';
+
+      const corePalettes = {
+        quantum: { primary: '#00f0ff', secondary: '#8a2be2', core: '#2d5bff', freq: '432.8 THz', grav: '0.042 G' },
+        supernova: { primary: '#ffb800', secondary: '#ff007f', core: '#ff4d00', freq: '894.1 THz', grav: '2.910 G' },
+        singularity: { primary: '#c084fc', secondary: '#00f0ff', core: '#11052C', freq: '12.4 PHz', grav: '98.60 G' }
+      };
+
+      function initHeroCore() {
+        const rect = coreCanvas.parentElement.getBoundingClientRect();
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        coreCanvas.width = rect.width * dpr;
+        coreCanvas.height = rect.height * dpr;
+        coreCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        const nodeCount = isMobile() ? 90 : 170;
+        coreNodes = [];
+        // Fibonacci Sphere distribution for uniform 3D geodesic core
+        const phi = Math.PI * (3 - Math.sqrt(5));
+        for (let i = 0; i < nodeCount; i++) {
+          const y = 1 - (i / (nodeCount - 1)) * 2;
+          const radius = Math.sqrt(1 - y * y);
+          const theta = phi * i;
+          const x = Math.cos(theta) * radius;
+          const z = Math.sin(theta) * radius;
+          coreNodes.push({
+            x, y, z,
+            baseR: Math.random() * 1.8 + 1.1,
+            orbitOffset: Math.random() * Math.PI * 2
+          });
+        }
+      }
+
+      function renderHeroCore(time) {
+        const width = coreCanvas.width / (Math.min(window.devicePixelRatio || 1, 2));
+        const height = coreCanvas.height / (Math.min(window.devicePixelRatio || 1, 2));
+        const cx = width / 2;
+        const cy = height / 2;
+        const sphereRadius = Math.min(width, height) * 0.31;
+
+        coreCtx.clearRect(0, 0, width, height);
+
+        const pal = corePalettes[currentCoreMode];
+
+        // Ambient inner core glow
+        const grad = coreCtx.createRadialGradient(cx, cy, 4, cx, cy, sphereRadius * 1.25);
+        grad.addColorStop(0, pal.primary);
+        grad.addColorStop(0.35, pal.core);
+        grad.addColorStop(0.7, 'rgba(138, 43, 226, 0.12)');
+        grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+        coreCtx.beginPath();
+        coreCtx.arc(cx, cy, sphereRadius * 1.25, 0, Math.PI * 2);
+        coreCtx.fillStyle = grad;
+        coreCtx.fill();
+
+        if (!isDragging) {
+          rotY += targetRotY;
+          rotX += targetRotX;
+        }
+
+        const cosY = Math.cos(rotY);
+        const sinY = Math.sin(rotY);
+        const cosX = Math.cos(rotX);
+        const sinX = Math.sin(rotX);
+
+        const projected = [];
+        const pulse = 1 + 0.05 * Math.sin(time * 0.0025);
+
+        for (let i = 0; i < coreNodes.length; i++) {
+          const n = coreNodes[i];
+          // Rotate Y
+          let x1 = n.x * cosY - n.z * sinY;
+          let z1 = n.z * cosY + n.x * sinY;
+          // Rotate X
+          let y1 = n.y * cosX - z1 * sinX;
+          let z2 = z1 * cosX + n.y * sinX;
+
+          const scale = 280 / (280 + z2 * sphereRadius);
+          const px = cx + x1 * sphereRadius * pulse * scale;
+          const py = cy + y1 * sphereRadius * pulse * scale;
+
+          projected.push({ px, py, z: z2, scale, r: n.baseR });
+        }
+
+        // Draw subtle constellation filaments on front hemisphere
+        coreCtx.lineWidth = 0.75;
+        for (let i = 0; i < projected.length; i++) {
+          const p1 = projected[i];
+          if (p1.z < -0.2) continue;
+          for (let j = i + 1; j < projected.length; j++) {
+            const p2 = projected[j];
+            if (p2.z < -0.2) continue;
+            const dx = p1.px - p2.px;
+            const dy = p1.py - p2.py;
+            const distSq = dx * dx + dy * dy;
+            if (distSq < 1850) {
+              const alpha = (1 - distSq / 1850) * 0.35;
+              coreCtx.strokeStyle = `rgba(0, 240, 255, ${alpha})`;
+              coreCtx.beginPath();
+              coreCtx.moveTo(p1.px, p1.py);
+              coreCtx.lineTo(p2.px, p2.py);
+              coreCtx.stroke();
+            }
+          }
+        }
+
+        // Draw projected 3D nodes
+        for (let i = 0; i < projected.length; i++) {
+          const p = projected[i];
+          const depthAlpha = Math.max(0.15, (p.z + 1.2) / 2.2);
+          coreCtx.beginPath();
+          coreCtx.arc(p.px, p.py, p.r * p.scale, 0, Math.PI * 2);
+          coreCtx.fillStyle = i % 3 === 0 ? pal.primary : pal.secondary;
+          coreCtx.globalAlpha = depthAlpha;
+          coreCtx.fill();
+        }
+        coreCtx.globalAlpha = 1;
+
+        // Draw 2 Orbiting Satellite Moons around the 3D Core
+        for (let m = 0; m < 2; m++) {
+          const angle = time * (m === 0 ? 0.0012 : -0.0009) + m * Math.PI;
+          const orbitR = sphereRadius * (m === 0 ? 1.32 : 1.48);
+          const mx = cx + Math.cos(angle) * orbitR;
+          const my = cy + Math.sin(angle) * (orbitR * 0.42);
+
+          coreCtx.beginPath();
+          coreCtx.arc(mx, my, m === 0 ? 6 : 4.5, 0, Math.PI * 2);
+          coreCtx.fillStyle = '#ffffff';
+          coreCtx.shadowColor = pal.primary;
+          coreCtx.shadowBlur = 14;
+          coreCtx.fill();
+          coreCtx.shadowBlur = 0;
+        }
+
+        if (!prefersReducedMotion()) {
+          requestAnimationFrame(renderHeroCore);
+        }
+      }
+
+      // Interactive Drag & Hover on 3D Core
+      coreCanvas.addEventListener('pointerdown', (e) => {
+        isDragging = true;
+        lastMouse.x = e.clientX;
+        lastMouse.y = e.clientY;
+        coreCanvas.setPointerCapture(e.pointerId);
+      });
+
+      coreCanvas.addEventListener('pointermove', (e) => {
+        const dx = e.clientX - lastMouse.x;
+        const dy = e.clientY - lastMouse.y;
+        if (isDragging) {
+          rotY += dx * 0.008;
+          rotX += dy * 0.008;
+          lastMouse.x = e.clientX;
+          lastMouse.y = e.clientY;
+        } else {
+          const rect = coreCanvas.getBoundingClientRect();
+          const relX = (e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
+          const relY = (e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
+          targetRotY = relX * 0.015;
+          targetRotX = relY * 0.015;
+        }
+      });
+
+      coreCanvas.addEventListener('pointerup', () => {
+        isDragging = false;
+      });
+
+      // Core Mode Switcher Buttons
+      const coreModeBtns = document.querySelectorAll('.core-mode-btn');
+      coreModeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          coreModeBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentCoreMode = btn.getAttribute('data-mode');
+          const pal = corePalettes[currentCoreMode];
+          freqReadout.textContent = pal.freq;
+          gravReadout.textContent = pal.grav;
+          warpBoost = 4;
+        });
+      });
+
+      initHeroCore();
+      requestAnimationFrame(renderHeroCore);
+
+      /* ========================================================================
+         5. FEATURED UNIVERSES FILTERING, SPOTLIGHT HOVER & PORTAL MODAL
+         ======================================================================== */
+      const filterTabs = document.querySelectorAll('.filter-tab');
+      const universeCards = document.querySelectorAll('.universe-card');
+      const portalModal = document.getElementById('portal-modal');
+      const modalCloseBtn = document.getElementById('modal-close-btn');
+      const modalConfirmBtn = document.getElementById('modal-confirm-btn');
+
+      filterTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          filterTabs.forEach(t => {
+            t.classList.remove('active');
+            t.setAttribute('aria-selected', 'false');
+          });
+          tab.classList.add('active');
+          tab.setAttribute('aria-selected', 'true');
+
+          const filter = tab.getAttribute('data-filter');
+          universeCards.forEach(card => {
+            const cat = card.getAttribute('data-category');
+            if (filter === 'all' || cat === filter) {
+              card.style.display = 'flex';
+              requestAnimationFrame(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+              });
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+
+      // Spotlight cursor effect & Portal Modal opening
+      universeCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+          card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+        });
+
+        card.addEventListener('click', () => {
+          document.getElementById('modal-title').textContent = card.getAttribute('data-title');
+          document.getElementById('modal-sector').textContent = card.getAttribute('data-sector');
+          document.getElementById('modal-desc').textContent = card.getAttribute('data-desc');
+          document.getElementById('modal-temp').textContent = card.getAttribute('data-temp');
+          document.getElementById('modal-dilation').textContent = card.getAttribute('data-dilation');
+          modalConfirmBtn.innerHTML = '<span>Synchronize Neural Link &amp; Enter</span>';
+          portalModal.classList.add('open');
+          portalModal.setAttribute('aria-hidden', 'false');
+        });
+      });
+
+      function closePortalModal() {
+        portalModal.classList.remove('open');
+        portalModal.setAttribute('aria-hidden', 'true');
+      }
+
+      modalCloseBtn.addEventListener('click', closePortalModal);
+      portalModal.addEventListener('click', (e) => {
+        if (e.target === portalModal) closePortalModal();
+      });
+
+      modalConfirmBtn.addEventListener('click', () => {
+        warpBoost = 12;
+        modalConfirmBtn.innerHTML = '<span>WARP SYNCHRONIZED // STREAMING TELEMETRY...</span>';
+        setTimeout(closePortalModal, 900);
+      });
+
+      /* ========================================================================
+         6. CLICKABLE FLOATING PLANETS (EXPLORE THE UNKNOWN)
+         ======================================================================== */
+      const planetData = {
+        aethel: {
+          code: 'EXO-ID // 884-AETHEL',
+          name: 'Aethelgard-IV',
+          desc: 'A super-aquatic world locked in harmonic resonance with twin moons. Sub-surface silicate towers emit low-frequency electromagnetic songs across the magnetosphere.',
+          gravity: '1.18 G',
+          atmo: 'N₂ / O₂ / Argon',
+          orbit: '412 Standard Days',
+          anomaly: 'Tier-IV Harmonic',
+          hab: 92
+        },
+        vespera: {
+          code: 'EXO-ID // 319-VESP',
+          name: 'Vespera Prime',
+          desc: 'Encircled by rings of pulverized amethyst ice and superconducting dust. Floating aerostat citadels harvest lightning from its perpetual violet aurora.',
+          gravity: '0.86 G',
+          atmo: 'Neon / Methane / O₂',
+          orbit: '689 Standard Days',
+          anomaly: 'Ring Magnetosphere',
+          hab: 84
+        },
+        xylar: {
+          code: 'EXO-ID // 502-XYLAR',
+          name: 'Xylar-9 Singularity',
+          desc: 'A tidally locked magma-crystalline world orbiting dangerously close to a relativistic anomaly. Rivers of liquid rubidium trace geometric patterns across its night side.',
+          gravity: '2.45 G',
+          atmo: 'Ionized Plasma Vapor',
+          orbit: '19 Standard Days',
+          anomaly: 'Chrono-Shear Zone',
+          hab: 38
+        },
+        chronos: {
+          code: 'EXO-ID // 771-CHRON',
+          name: 'Chronos Halo',
+          desc: 'An ancient artificial shell-world plated in golden metamaterials. Temporal sensors indicate its inner core rotates backward relative to local spacetime.',
+          gravity: '1.00 G (Artificial)',
+          atmo: 'Breathable Synthetic',
+          orbit: '1,024 Standard Days',
+          anomaly: 'Temporal Inversion',
+          hab: 97
+        },
+        nyx: {
+          code: 'EXO-ID // 108-NYX',
+          name: 'Nyx Oasis',
+          desc: 'A lush rogue world warmed by a radiant thorium core. Bioluminescent canopy forests stretch 4 kilometers high under a canopy of eternal starlight.',
+          gravity: '0.74 G',
+          atmo: 'High-Oxygen / Xenon',
+          orbit: 'Rogue Trajectory',
+          anomaly: 'Flora Neural Net',
+          hab: 95
+        }
+      };
+
+      const planetBtns = document.querySelectorAll('.floating-planet');
+      const launchProbeBtn = document.getElementById('launch-probe-btn');
+
+      planetBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          planetBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          const key = btn.getAttribute('data-planet');
+          const info = planetData[key];
+          if (!info) return;
+
+          document.getElementById('planet-code').textContent = info.code;
+          document.getElementById('planet-name').textContent = info.name;
+          document.getElementById('planet-desc').textContent = info.desc;
+          document.getElementById('planet-gravity').textContent = info.gravity;
+          document.getElementById('planet-atmo').textContent = info.atmo;
+          document.getElementById('planet-orbit').textContent = info.orbit;
+          document.getElementById('planet-anomaly').textContent = info.anomaly;
+          document.getElementById('planet-hab-val').textContent = info.hab + '%';
+          document.getElementById('planet-hab-bar').style.width = info.hab + '%';
+          document.getElementById('planet-status').textContent = 'SCAN LOCKED';
+          launchProbeBtn.innerHTML = '<span>Deploy Surface Telemetry Probe</span>';
+        });
+      });
+
+      launchProbeBtn.addEventListener('click', () => {
+        document.getElementById('planet-status').textContent = 'PROBE IN ORBIT';
+        launchProbeBtn.innerHTML = '<span>TELEMETRY STREAM ACTIVE &check;</span>';
+        warpBoost = 6;
+      });
+
+      /* ========================================================================
+         7. INTERACTIVE DISCOVERY GALLERY (LIVE SPECTRAL ARTIFACT RENDERER)
+         ======================================================================== */
+      const discCanvas = document.getElementById('discovery-canvas');
+      const discCtx = discCanvas.getContext('2d');
+      let activeDiscoveryIdx = 0;
+      let activeSpectrum = 'visible';
+
+      const discoveries = [
+        {
+          id: 'ARCHIVE // REC-0019-A',
+          title: 'The Eventide Rift',
+          desc: 'Captured 14,000 light-years from Sol, this hyper-magnetized filament ripples whenever gravitational waves pass through its core.',
+          ra: 'RA: 18h 36m 56.3s',
+          dec: 'DEC: +38° 47\' 01"',
+          flux: 'FLUX: 8.42×10⁻¹¹ erg/s',
+          color1: '#00f0ff',
+          color2: '#ff007f',
+          rings: 5
+        },
+        {
+          id: 'ARCHIVE // REC-0402-B',
+          title: 'Crystalline Dyson Lattice',
+          desc: 'Hexagonal solar-harvesting facets orbiting a luminous blue giant, redirecting coherent energy beams across intergalactic space.',
+          ra: 'RA: 05h 35m 17.3s',
+          dec: 'DEC: -05° 23\' 28"',
+          flux: 'FLUX: 4.19×10⁻⁸ erg/s',
+          color1: '#ffb800',
+          color2: '#00f0ff',
+          rings: 8
+        },
+        {
+          id: 'ARCHIVE // REC-0881-C',
+          title: 'Echoes of Vela Pulsar',
+          desc: 'Twin relativistic particle jets carving symmetric shockwaves through an ancient supernova remnant at 0.8c.',
+          ra: 'RA: 08h 35m 20.6s',
+          dec: 'DEC: -45° 10\' 35"',
+          flux: 'FLUX: 1.95×10⁻⁹ erg/s',
+          color1: '#a855f7',
+          color2: '#00f0ff',
+          rings: 6
+        },
+        {
+          id: 'ARCHIVE // REC-1024-X',
+          title: 'Quantum Singularity Bloom',
+          desc: 'Micro-singularity evaporation event producing harmonic concentric bursts of Cherenkov and Hawking radiation.',
+          ra: 'RA: 12h 29m 06.7s',
+          dec: 'DEC: +02° 03\' 08"',
+          flux: 'FLUX: 9.90×10⁻¹⁰ erg/s',
+          color1: '#10b981',
+          color2: '#3b82f6',
+          rings: 9
+        }
+      ];
+
+      function initDiscoveryCanvas() {
+        const rect = discCanvas.parentElement.getBoundingClientRect();
+        discCanvas.width = rect.width;
+        discCanvas.height = rect.height;
+      }
+
+      function renderDiscovery(t) {
+        const w = discCanvas.width;
+        const h = discCanvas.height;
+        const cx = w / 2;
+        const cy = h * 0.42;
+        const d = discoveries[activeDiscoveryIdx];
+
+        discCtx.fillStyle = '#040714';
+        discCtx.fillRect(0, 0, w, h);
+
+        // Background radial aura
+        const grad = discCtx.createRadialGradient(cx, cy, 10, cx, cy, Math.max(w, h) * 0.55);
+        grad.addColorStop(0, d.color1 + '44');
+        grad.addColorStop(0.5, d.color2 + '22');
+        grad.addColorStop(1, 'transparent');
+        discCtx.fillStyle = grad;
+        discCtx.fillRect(0, 0, w, h);
+
+        // Animated geometric waves
+        for (let i = 1; i <= d.rings; i++) {
+          const radius = i * 24 + Math.sin(t * 0.002 + i) * 8;
+          discCtx.beginPath();
+          for (let a = 0; a <= Math.PI * 2; a += 0.08) {
+            const wave = Math.sin(a * (activeDiscoveryIdx + 3) + t * 0.0025) * (i * 2.5);
+            const x = cx + Math.cos(a) * (radius + wave);
+            const y = cy + Math.sin(a) * (radius + wave) * 0.65;
+            if (a === 0) discCtx.moveTo(x, y);
+            else discCtx.lineTo(x, y);
+          }
+          discCtx.closePath();
+          discCtx.strokeStyle = i % 2 === 0 ? d.color1 : d.color2;
+          discCtx.globalAlpha = 0.65 - i * 0.05;
+          discCtx.lineWidth = 1.6;
+          discCtx.stroke();
+        }
+        discCtx.globalAlpha = 1;
+
+        if (!prefersReducedMotion()) {
+          requestAnimationFrame(renderDiscovery);
+        }
+      }
+
+      initDiscoveryCanvas();
+      requestAnimationFrame(renderDiscovery);
+
+      const discoveryBtns = document.querySelectorAll('.discovery-item-btn');
+      discoveryBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          discoveryBtns.forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-selected', 'false');
+          });
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
+
+          activeDiscoveryIdx = parseInt(btn.getAttribute('data-discovery'), 10);
+          const d = discoveries[activeDiscoveryIdx];
+          document.getElementById('discovery-title').textContent = d.title;
+          document.getElementById('discovery-desc').textContent = d.desc;
+          document.getElementById('discovery-ra').textContent = d.ra;
+          document.getElementById('discovery-dec').textContent = d.dec;
+          document.getElementById('discovery-flux').textContent = d.flux;
+        });
+      });
+
+      const spectralBtns = document.querySelectorAll('.spectral-btn');
+      spectralBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          spectralBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeSpectrum = btn.getAttribute('data-spectrum');
+          if (activeSpectrum === 'visible') {
+            discCanvas.style.filter = 'none';
+          } else if (activeSpectrum === 'xray') {
+            discCanvas.style.filter = 'hue-rotate(160deg) contrast(1.35) saturate(1.5)';
+          } else if (activeSpectrum === 'infrared') {
+            discCanvas.style.filter = 'hue-rotate(-65deg) saturate(1.8) brightness(1.1)';
+          }
+        });
+      });
+
+      /* ========================================================================
+         8. SCROLL REVEAL & ANIMATED STATISTICS COUNTERS
+         ======================================================================== */
+      const revealEls = document.querySelectorAll('.reveal');
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.14 });
+
+      revealEls.forEach(el => revealObserver.observe(el));
+
+      // Animated Counters
+      const counterEls = document.querySelectorAll('.counter-value');
+      const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          const target = parseFloat(el.getAttribute('data-target'));
+          const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+          const duration = 2000;
+          const startTime = performance.now();
+
+          function updateCounter(now) {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easeOutExpo = 1 - Math.pow(2, -10 * progress);
+            const currentVal = target * easeOutExpo;
+            el.textContent = decimals > 0
+              ? currentVal.toFixed(decimals)
+              : Math.floor(currentVal).toLocaleString();
+            if (progress < 1) {
+              requestAnimationFrame(updateCounter);
+            } else {
+              el.textContent = decimals > 0 ? target.toFixed(decimals) : target.toLocaleString();
+            }
+          }
+
+          requestAnimationFrame(updateCounter);
+          counterObserver.unobserve(el);
+        });
+      }, { threshold: 0.4 });
+
+      counterEls.forEach(el => counterObserver.observe(el));
+
+      /* ========================================================================
+         9. NEURAL EXPLORER PASS GENERATOR (FINAL CTA)
+         ======================================================================== */
+      const passForm = document.getElementById('neural-pass-form');
+      const passConfirm = document.getElementById('pass-confirmation');
+
+      passForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const callsign = document.getElementById('explorer-callsign').value.trim();
+        if (!callsign) return;
+        const hash = Math.random().toString(36).substring(2, 8).toUpperCase();
+        warpBoost = 15;
+        passConfirm.textContent = `PASS ISSUED FOR [${callsign.toUpperCase()}] // QUANTUM KEY: NX-${hash} // SECTOR 09 ACCESS GRANTED`;
+        passConfirm.classList.add('show');
+        passForm.reset();
+      });
+
+    })();
+  </script>
+</body>
+</html>
+```
